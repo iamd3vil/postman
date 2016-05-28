@@ -1,6 +1,5 @@
 defmodule Postman.ApiPlug do
   use Plug.Router
-  import Bamboo.Email
   import Plug.Conn
 
   plug Plug.Parsers, parsers: [:urlencoded, :json],
@@ -18,16 +17,10 @@ defmodule Postman.ApiPlug do
       "html_body" => html
     } = conn.params
 
-    # Getting from address from config
+    # Getting `from address` from config
     from_addr = Application.get_env(:postman, :from_addr)
 
-    new_email
-    |> to(to_addr)
-    |> from(from_addr)
-    |> subject(sub)
-    |> text_body(text)
-    |> html_body(html)
-    |> Postman.Mailer.deliver_later
+    Postman.Mailer.send_mail(to_addr, from_addr, sub, text, html)
 
     conn
     |> put_resp_content_type("application/json")
