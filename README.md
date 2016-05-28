@@ -9,9 +9,9 @@ This is a service which sends Emails, SMS or push notifications. You can interac
 
 ### TODO
 
-- [] Support different email providers
-- [] Support different SMS providers
-- [] Documentation
-- [] Add GCM support for push notifications
-- [] Add different ways of interaction
-- [] Streamline HTTP API
+- [ ] Support different email providers
+- [ ] Support different SMS providers
+- [ ] Documentation
+- [ ] Add GCM support for push notifications
+- [ ] Add different ways of interaction
+- [ ] Streamline HTTP API
