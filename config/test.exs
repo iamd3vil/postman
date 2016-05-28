@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :postman, Postman.Mailer,
-  adapter: Bamboo.LocalAdapter
+  adapter: Bamboo.TestAdapter
 
 config :postman,
   purpose: :email,
