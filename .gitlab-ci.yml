@@ -4,6 +4,7 @@ before_script:
   - apt-get update
   - apt-get -y install elixir
   - mix local.hex --force
+  - mix local.rebar --force
   - mix deps.get
   - mix deps.compile
 
