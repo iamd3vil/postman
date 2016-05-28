@@ -1,22 +1,36 @@
 defmodule Postman do
   use Application
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    port = Application.get_env(:postman, :port)
+    purpose = Application.get_env(:postman, :purpose)
+    interaction = Application.get_env(:postman, :interaction)
+    # Adding children dynamically according to the config
+    children = []
+    |> get_children(purpose, interaction)
 
-    children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Postman.Worker, [arg1, arg2, arg3]),
-      Plug.Adapters.Cowboy.child_spec(:http, Postman.ApiPlug, [], port: port)
-    ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Postman.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp get_children(children, :email, :api) do
+    put_plug_worker(children)
+  end
+
+  defp get_children(children, :email, :rabbitmq) do
+    put_rabbitmq_worker(children)
+  end
+
+  defp put_plug_worker(children) do
+    port = Application.get_env(:postman, :port)
+    children ++ [Plug.Adapters.Cowboy.child_spec(:http, Postman.ApiPlug, [], port: port)]
+  end
+
+  defp put_rabbitmq_worker(children) do
+    import Supervisor.Spec, warn: false
+
+    {:ok, conn} = AMQP.Connection.open("amqp://guest:guest@localhost")
+    children ++ [worker(Postman.RabbitmqWorker, [conn])]
   end
 end

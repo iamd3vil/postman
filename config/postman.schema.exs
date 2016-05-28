@@ -91,6 +91,22 @@ See the moduledoc for `Conform.Schema.Validator` for more details and examples.
       doc: "Port for the Postman to bind.",
       hidden: false,
       to: "postman.port"
+    ],
+    "postman.purpose": [
+      commented: false,
+      datatype: :atom,
+      default: ;email,
+      doc: "Write the purpose of using Postman. For Example `email`",
+      hidden: false,
+      to: "postman.purpose"
+    ],
+    "postman.interaction": [
+      commented: false,
+      datatype: :atom,
+      default: :api,
+      doc: "How would you interact with postman. For eg: api or rabbitmq",
+      hidden: false,
+      to: "postman.purpose"
     ]
   ],
   transforms: [
