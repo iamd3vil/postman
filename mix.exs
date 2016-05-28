@@ -14,7 +14,7 @@ defmodule Postman.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :cowboy, :plug, :bamboo, :conform],
+    [applications: [:logger, :cowboy, :plug, :bamboo, :conform, :amqp],
      mod: {Postman, []}]
   end
 
@@ -33,7 +33,8 @@ defmodule Postman.Mixfile do
      {:bamboo, "~> 0.5.0"},
      {:exrm, "~> 1.0", overridable: true},
      {:conform, "~> 2.0", overridable: true},
-     {:conform_exrm, "~> 1.0"}
+     {:conform_exrm, "~> 1.0"},
+     {:amqp, "~> 0.1.4"}
     ]
   end
 end
