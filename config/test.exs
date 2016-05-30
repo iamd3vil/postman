@@ -5,6 +5,7 @@ config :postman, Postman.Mailer,
 
 config :postman,
   purpose: :email,
-  interaction: :api,
+  interaction: [:api, :rabbitmq],
+  rabbitmq_pool_size: 1,
   from_addr: "info@skorpion.tech",
   port: 9090

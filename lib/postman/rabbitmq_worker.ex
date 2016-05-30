@@ -11,7 +11,7 @@ defmodule Postman.RabbitmqWorker do
   @exchange "postman_exchange"
   @queue "postman_queue"
 
-  def start_link(conn) do
+  def start_link([conn]) do
     GenServer.start_link(__MODULE__, conn, [])
   end
 
@@ -55,6 +55,7 @@ defmodule Postman.RabbitmqWorker do
     do: parse(payload_decoded)
   end
 
+  # Parses the message and sends the email
   defp parse(%{"to_email" => to_email, "subject" => subject, "text_body" => text, "html_body" => html}) do
     from_addr = Application.get_env(:postman, :from_addr)
     Postman.Mailer.send_mail(to_email, from_addr, subject, text, html)

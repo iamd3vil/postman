@@ -1,5 +1,7 @@
 image: trenpixster/elixir
+service: rabbitmq
 before_script:
+  - service rabbitmq-server start
   - mix local.hex --force
   - mix local.rebar --force
   - mix deps.get

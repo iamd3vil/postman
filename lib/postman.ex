@@ -5,10 +5,12 @@ defmodule Postman do
     import Supervisor.Spec, warn: false
 
     purpose = Application.get_env(:postman, :purpose)
-    interaction = Application.get_env(:postman, :interaction)
+    interactions = Application.get_env(:postman, :interaction)
     # Adding children dynamically according to the config
-    children = []
-    |> get_children(purpose, interaction)
+    children = interactions
+    |> Enum.reduce([], fn(interaction, acc) ->
+      get_children(acc, purpose, interaction)
+    end)
 
     opts = [strategy: :one_for_one, name: Postman.Supervisor]
     Supervisor.start_link(children, opts)
@@ -30,7 +32,13 @@ defmodule Postman do
   defp put_rabbitmq_worker(children) do
     import Supervisor.Spec, warn: false
 
+    rabbitmq_pool_opts = [
+      name: {:local, :rabbitmq_pool},
+      worker_module: Postman.RabbitmqWorker,
+      size: Application.get_env(:postman, :rabbitmq_pool_size) || 10,
+      max_overflow: 5
+    ]
     {:ok, conn} = AMQP.Connection.open("amqp://guest:guest@localhost")
-    children ++ [worker(Postman.RabbitmqWorker, [conn])]
+    children ++ [:poolboy.child_spec(:rabbitmq_pool, rabbitmq_pool_opts, [conn])]
   end
 end
