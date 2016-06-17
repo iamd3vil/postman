@@ -1,7 +1,8 @@
 language: elixir
+sudo: required
 elixir:
   - 1.2.2
-otp-release:
-  - 18.0
+otp_release:
+  - 18.3
 services:
   - rabbitmq
