@@ -38,7 +38,9 @@ defmodule Postman do
       size: Application.get_env(:postman, :rabbitmq_pool_size) || 10,
       max_overflow: 5
     ]
-    {:ok, conn} = AMQP.Connection.open("amqp://guest:guest@localhost")
+    username = Application.get_env(:postman, :rabbitmq_username) || "guest"
+    password = Application.get_env(:postman, :rabbitmq_password) || "guest"
+    {:ok, conn} = AMQP.Connection.open(username: username, password: password)
     children ++ [:poolboy.child_spec(:rabbitmq_pool, rabbitmq_pool_opts, [conn])]
   end
 end

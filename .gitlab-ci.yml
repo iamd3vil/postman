@@ -1,6 +1,10 @@
 image: trenpixster/elixir
 services:
-  - rabbitmq
+  - rabbitmq:latest
+variables:
+  RABBITMQ_DEFAULT_USER: user
+  RABBITMQ_DEFAULT_PASS: password
+  MIX_ENV: test
 before_script:
   - mix local.hex --force
   - mix local.rebar --force
