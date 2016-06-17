@@ -40,6 +40,7 @@ defmodule Postman do
     ]
     username = Application.get_env(:postman, :rabbitmq_username) || "guest"
     password = Application.get_env(:postman, :rabbitmq_password) || "guest"
+    host = Application.get_env(:postman, :rabbitmq_host) || "localhost"
     {:ok, conn} = AMQP.Connection.open(username: username, password: password)
     children ++ [:poolboy.child_spec(:rabbitmq_pool, rabbitmq_pool_opts, [conn])]
   end
