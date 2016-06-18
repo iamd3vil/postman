@@ -30,7 +30,8 @@ defmodule Postman.Mixfile do
   defp deps do
     [{:cowboy, "~> 1.0"},
      {:plug, "~> 1.1"},
-     {:bamboo, "~> 0.5.0"},
+     {:bamboo, "~> 0.6.0"},
+     {:bamboo_smtp, "~> 1.0"},
      {:exrm, "~> 1.0", overridable: true},
      {:conform, "~> 2.0", overridable: true},
      {:conform_exrm, "~> 1.0"},
