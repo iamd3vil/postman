@@ -1,6 +1,8 @@
 defmodule Postman.ApiPlug do
   use Plug.Router
   import Plug.Conn
+  alias Postman.Parser
+  alias Postman.Responder
 
   plug Plug.Parsers, parsers: [:urlencoded, :json],
     pass:  ["text/*"],
@@ -9,22 +11,20 @@ defmodule Postman.ApiPlug do
   plug :match
   plug :dispatch
 
-  post "/api/v1/sendmail" do
-    %{
-      "to" => to_addr,
-      "subject" => sub,
-      "text_body" => text,
-      "html_body" => html
-    } = conn.params
-
-    # Getting `from address` from config
-    from_addr = Application.get_env(:postman, :from_addr)
-
-    Postman.Mailer.send_mail(to_addr, from_addr, sub, text, html)
-
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, "{\"status\": \"OK\"}")
+  post "/api/v1/send" do
+    conn.params
+    |> Parser.parse()
+    |> Responder.respond()
+    |> case do
+         :ok ->
+           conn
+           |> put_resp_content_type("application/json")
+           |> send_resp(200, "{\"status\": \"success\"}")
+         {:error, error} ->
+           conn
+           |> put_resp_content_type("application/json")
+           |> send_resp(500, ~s({"status": "error", "error": "#{error}"}))
+    end
   end
 
   match _ do

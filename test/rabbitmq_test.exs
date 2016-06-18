@@ -18,10 +18,13 @@ defmodule RabbitmqTest do
     )
 
     %{
-      to_email: to_addr,
-      subject: subject,
-      text_body: text_body,
-      html_body: html_body
+      type: "email",
+      payload: %{
+        to: to_addr,
+        subject: subject,
+        text_body: text_body,
+        html_body: html_body
+      }
     }
     |> Poison.encode!
     |> send_rabbitmq_mesg

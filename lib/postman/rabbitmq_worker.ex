@@ -7,6 +7,7 @@ defmodule Postman.RabbitmqWorker do
   use GenServer
   use AMQP
   require Logger
+  alias Postman.{Responder, Parser}
 
   @exchange "postman_exchange"
   @queue "postman_queue"
@@ -52,12 +53,8 @@ defmodule Postman.RabbitmqWorker do
     Basic.ack channel, tag
     Logger.debug "[*] Received payload: #{payload}"
     with {:ok, payload_decoded} <- Poison.decode(payload),
-    do: parse(payload_decoded)
-  end
-
-  # Parses the message and sends the email
-  defp parse(%{"to_email" => to_email, "subject" => subject, "text_body" => text, "html_body" => html}) do
-    from_addr = Application.get_env(:postman, :from_addr)
-    Postman.Mailer.send_mail(to_email, from_addr, subject, text, html)
+      do: payload_decoded
+      |> Parser.parse()
+      |> Responder.respond
   end
 end
