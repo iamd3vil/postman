@@ -55,8 +55,8 @@ See the moduledoc for `Conform.Schema.Validator` for more details and examples.
     "postman.adapter": [
       commented: false,
       datatype: :atom,
-      default: :mailgun,
-      doc: "Adapter for postman. Currently only supports Mailgun",
+      default: :local,
+      doc: "Adapter for postman. Can be `local` or `mailgun` or `sendgrid` or `mandrill` or `smtp`",
       hidden: false,
       to: "postman.adapter"
     ],
@@ -68,7 +68,63 @@ See the moduledoc for `Conform.Schema.Validator` for more details and examples.
       hidden: false,
       to: "postman.Elixir.Postman.Mailer.api_key"
     ],
-    "postman.Elixir.Postman.Mailer.domain": [
+    "postman.smtp_username": [
+      commented: false,
+      datatype: :binary,
+      default: "Your smtp username",
+      doc: "SMTP username",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.username"
+    ],
+    "postman.smtp_password": [
+      commented: true,
+      datatype: :binary,
+      default: "",
+      doc: "SMTP password",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.password"
+    ],
+    "postman.smtp_port": [
+      commented: true,
+      datatype: :integer,
+      default: 1025,
+      doc: "SMTP server port",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.port"
+    ],
+    "postman.smtp_server": [
+      commented: true,
+      datatype: :binary,
+      default: "smtp.domain",
+      doc: "SMTP server",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.server"
+    ],
+    "postman.smtp_tls": [
+      commented: true,
+      datatype: :atom,
+      default: :if_available,
+      doc: "SMTP TLS settings. Can be `if_available` or `always` or `never`",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.tls"
+    ],
+    "postman.smtp_ssl": [
+      commented: true,
+      datatype: :atom,
+      default: :true,
+      doc: "SMTP SSL settings. Can be `true` or `false`",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.ssl"
+    ],
+    "postman.smtp_retries": [
+      commented: true,
+      datatype: :integer,
+      default: 1,
+      doc: "Number of retries postman can do if it fails to send the email through SMTP",
+      hidden: true,
+      to: "postman.Elixir.Postman.Mailer.retries"
+    ],
+    "postman.domain": [
       commented: false,
       datatype: :binary,
       default: "YOUR_DOMAIN",
@@ -95,25 +151,60 @@ See the moduledoc for `Conform.Schema.Validator` for more details and examples.
     "postman.purpose": [
       commented: false,
       datatype: :atom,
-      default: ;email,
+      default: :email,
       doc: "Write the purpose of using Postman. For Example `email`",
       hidden: false,
       to: "postman.purpose"
     ],
     "postman.interaction": [
       commented: false,
-      datatype: :atom,
-      default: :api,
+      datatype: [list: :binary],
+      default: ["api", "rabbitmq"],
       doc: "How would you interact with postman. For eg: api or rabbitmq",
       hidden: false,
-      to: "postman.purpose"
+      to: "postman.interaction"
+    ],
+    "postman.rabbitmq_username": [
+      commented: false,
+      datatype: :binary,
+      default: "guest",
+      doc: "Rabbitmq Username",
+      hidden: false,
+      to: "postman.rabbitmq_username"
+    ],
+    "postman.rabbitmq_password": [
+      commented: false,
+      datatype: :binary,
+      default: "guest",
+      doc: "Rabbitmq password",
+      hidden: false,
+      to: "postman.rabbitmq_password"
+    ],
+    "postman.rabbitmq_host": [
+      commented: false,
+      datatype: :binary,
+      default: "localhost",
+      doc: "Rabbitmq Host",
+      hidden: false,
+      to: "postman.rabbitmq_host"
+    ],
+    "postman.rabbitmq_port": [
+      commented: false,
+      datatype: :integer,
+      default: 5672,
+      doc: "Rabbitmq port",
+      hidden: false,
+      to: "postman.rabbitmq_port"
     ]
   ],
   transforms: [
-    "postman.Elixir.Postman.Mailer.Adapter": fn conf ->
+    "postman.Elixir.Postman.Mailer.adapter": fn conf ->
       [{_, adapter}] = Conform.Conf.get(conf, "postman.adapter")
       case adapter do
         :mailgun -> Bamboo.MailgunAdapter
+        :sendgrid -> Bamboo.SendgridAdapter
+        :local -> Bamboo.LocalAdapter
+        :smtp -> Bamboo.SMTPAdapter
       end
     end
   ],

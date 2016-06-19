@@ -1,11 +1,10 @@
 use Mix.Config
 
 config :postman, Postman.Mailer,
-  adapter: Bamboo.TestAdapter
+  adapter: Bamboo.LocalAdapter
 
 config :postman,
   purpose: :email,
-  interaction: ["api", "rabbitmq"],
-  rabbitmq_pool_size: 1,
+  interaction: ["api"],
   from_addr: "me@saratchandra.in",
   port: 9090

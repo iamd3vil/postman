@@ -9,7 +9,6 @@ defmodule Postman.ApiPlugTest do
     subject = "Test email"
     text_body = ""
     html_body = "<p> </p>"
-    from_addr = Application.get_env(:postman, :from_addr)
     email = %{
       type: "email",
       payload: %{
@@ -36,7 +35,6 @@ defmodule Postman.ApiPlugTest do
     subject = "Test email"
     text_body = ""
     html_body = "<p> </p>"
-    from_addr = Application.get_env(:postman, :from_addr)
     email = %{
       type: "email",
       payload: %{

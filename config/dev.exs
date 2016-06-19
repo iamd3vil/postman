@@ -5,6 +5,6 @@ config :postman, Postman.Mailer,
 
 config :postman,
   purpose: :email,
-  interaction: [:api, :rabbitmq],
+  interaction: ["api", "rabbitmq"],
   from_addr: "me@saratchandra.in",
   port: 9090
