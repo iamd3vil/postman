@@ -1,6 +1,6 @@
 %{"amqp": {:hex, :amqp, "0.1.4", "5d9112c3a850234559073c23fda173364dfd11d8ce8d0138cd46f653fdc55f08", [:mix], [{:amqp_client, ">= 3.5.6", [hex: :amqp_client, optional: false]}]},
   "amqp_client": {:hex, :amqp_client, "3.5.6", "ed7e63122f32af1d503d134e6c1b088a0627e89c6b5c77b92984c841cb0939be", [:rebar], [{:rabbit_common, "3.5.6", [hex: :rabbit_common, optional: false]}]},
-  "bamboo": {:hex, :bamboo, "0.6.0", "a8f3775018fcf0c181d2e5df0138b15201bdbe54b3cb502489c1dda2ef4a7388", [:mix], [{:poison, ">= 1.5.0", [hex: :poison, optional: false]}, {:plug, "~> 1.0", [hex: :plug, optional: false]}, {:httpoison, "~> 0.8", [hex: :httpoison, optional: false]}]},
+  "bamboo": {:git, "https://github.com/thoughtbot/bamboo.git", "cbe837f86cfd667231b6193dd9691ff77c3b7502", []},
   "bamboo_smtp": {:hex, :bamboo_smtp, "1.0.0", "84ae30d165f5cd8296d9407224493d46c902a1e86134672dc1e3b6e94347bbb9", [:mix], [{:gen_smtp, "~> 0.10.0", [hex: :gen_smtp, optional: false]}, {:bamboo, "~> 0.6.0", [hex: :bamboo, optional: false]}]},
   "bbmustache": {:hex, :bbmustache, "1.0.4", "7ba94f971c5afd7b6617918a4bb74705e36cab36eb84b19b6a1b7ee06427aa38", [:rebar], []},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
