@@ -25,8 +25,11 @@ defmodule Postman.RabbitmqWorker do
     {:ok, chan}
   end
 
+  @doc """
+  Sends by the broker when a consumer is registered succesfully
+  """
   def handle_info({:basic_consume_ok, %{consumer_tag: _consumer_tag}}, chan) do
-    Logger.debug "[*] Basic Consume OK"
+    Logger.debug "[*] Consumer registered"
     {:noreply, chan}
   end
 
@@ -44,8 +47,13 @@ defmodule Postman.RabbitmqWorker do
     {:noreply, chan}
   end
 
+  @doc """
+  Handles a delivered message sent by the broker
+  """
   def handle_info({:basic_deliver, payload, %{delivery_tag: tag}}, chan) do
-    spawn fn -> consume(chan, tag, payload) end
+    Task.Supervisor.start_child(Postman.RabbitmqTaskSup, fn ->
+      consume(chan, tag, payload)
+    end)
     {:noreply, chan}
   end
 

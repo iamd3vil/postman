@@ -42,6 +42,8 @@ defmodule Postman do
     password = Application.get_env(:postman, :rabbitmq_password) || "guest"
     host = Application.get_env(:postman, :rabbitmq_host) || "localhost"
     {:ok, conn} = AMQP.Connection.open(username: username, password: password, host: host)
-    children ++ [:poolboy.child_spec(:rabbitmq_pool, rabbitmq_pool_opts, [conn])]
+    children
+    ++ [supervisor(Task.Supervisor, [[name: Postman.RabbitmqTaskSup]])]
+    ++ [:poolboy.child_spec(:rabbitmq_pool, rabbitmq_pool_opts, [conn])]
   end
 end
