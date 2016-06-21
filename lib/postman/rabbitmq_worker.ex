@@ -11,6 +11,7 @@ defmodule Postman.RabbitmqWorker do
 
   @exchange "postman_exchange"
   @queue "postman_queue"
+  @error_queue "postman_error_queue"
 
   def start_link([conn]) do
     GenServer.start_link(__MODULE__, conn, [])
@@ -20,6 +21,8 @@ defmodule Postman.RabbitmqWorker do
     {:ok, chan} = Channel.open(conn)
     # Limit unacknowledged messages to 1
     Basic.qos(chan, prefetch_count: 1)
+    # Declare error queue
+    Queue.declare(chan, @error_queue, durable: true)
     Queue.declare(chan, @queue, durable: true)
     {:ok, _consumer_tag} = Basic.consume(chan, @queue)
     {:ok, chan}
@@ -64,5 +67,18 @@ defmodule Postman.RabbitmqWorker do
       do: payload_decoded
       |> Parser.parse()
       |> Responder.respond
+      |> check_error()
+  end
+
+  defp check_error({:error, error}, channel) do
+    payload = %{
+      "status" => "error",
+      "error" => error
+    } |> Poison.encode!
+    Basic.publish(channel, @exchange, @error_queue, payload)
+    :ok
+  end
+  defp check_error(_, channel) do
+    :ok
   end
 end
