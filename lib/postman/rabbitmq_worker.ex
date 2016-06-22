@@ -67,7 +67,7 @@ defmodule Postman.RabbitmqWorker do
       do: payload_decoded
       |> Parser.parse()
       |> Responder.respond
-      |> check_error()
+      |> check_error(channel)
   end
 
   defp check_error({:error, error}, channel) do
