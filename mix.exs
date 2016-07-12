@@ -31,10 +31,12 @@ defmodule Postman.Mixfile do
     [{:cowboy, "~> 1.0"},
      {:plug, "~> 1.1"},
      {:bamboo, github: "thoughtbot/bamboo", override: true},
+     {:gen_smtp, "~> 0.11.0", override: true},
      {:bamboo_smtp, "~> 1.0"},
-     {:exrm, "~> 1.0", overridable: true},
+     {:exrm, "~> 1.0.6", overridable: true},
      {:conform, "~> 2.0", overridable: true},
      {:conform_exrm, "~> 1.0"},
+     {:amqp_client, git: "https://github.com/jbrisbin/amqp_client.git", override: true},
      {:amqp, "~> 0.1.4"},
      {:poolboy, "~> 1.5"}
     ]
