@@ -1,5 +1,5 @@
 defmodule RabbitmqTest do
-  use ExUnit.Case, asynv: true
+  use ExUnit.Case, async: false
   use Bamboo.Test, shared: true
   import Bamboo.Email
 
