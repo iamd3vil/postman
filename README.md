@@ -8,6 +8,8 @@ It exposes a simple API for all your emails, SMSs and push notifications. Just s
 
 Postman has a lot of configuration options you can use to configure it according to your needs. Please see the docs for everything you can do with Postman.
 
+It only supports Emails for now, but we are adding 
+
 ### Supported ways of interaction
 
 - REST API
@@ -15,8 +17,8 @@ Postman has a lot of configuration options you can use to configure it according
 
 ### TODO
 
-- [*] Support different email providers
-- [*] Streamline HTTP API
+- [x] Support different email providers
+- [x] Streamline HTTP API
 - [ ] Documentation
 - [ ] Support different SMS providers
 - [ ] Add GCM support for push notifications
