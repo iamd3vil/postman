@@ -7,14 +7,14 @@ defmodule Postman.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :cowboy, :plug, :bamboo, :conform, :amqp, :poolboy, :bamboo_smtp],
+    [applications: [:logger, :cowboy, :plug, :bamboo, :conform, :conform_exrm, :amqp, :poolboy, :bamboo_smtp],
      mod: {Postman, []}]
   end
 
@@ -30,9 +30,9 @@ defmodule Postman.Mixfile do
   defp deps do
     [{:cowboy, "~> 1.0"},
      {:plug, "~> 1.1"},
-     {:bamboo, github: "thoughtbot/bamboo", override: true},
+     {:bamboo, "~> 0.8"},
      {:gen_smtp, "~> 0.11.0", override: true},
-     {:bamboo_smtp, "~> 1.0"},
+     {:bamboo_smtp, "~> 1.3"},
      {:exrm, "~> 1.0.6", overridable: true},
      {:conform, "~> 2.0", overridable: true},
      {:conform_exrm, "~> 1.0"},
