@@ -28,16 +28,15 @@ defmodule Postman.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:cowboy, "~> 1.0"},
-     {:plug, "~> 1.1"},
+    [{:cowboy, "~> 1.1"},
+     {:plug, "~> 1.4"},
      {:bamboo, "~> 0.8"},
      {:gen_smtp, "~> 0.11.0", override: true},
      {:bamboo_smtp, "~> 1.3"},
      {:exrm, "~> 1.0.6", overridable: true},
      {:conform, "~> 2.0", overridable: true},
      {:conform_exrm, "~> 1.0"},
-     {:amqp_client, git: "https://github.com/jbrisbin/amqp_client.git", override: true},
-     {:amqp, "~> 0.1.4"},
+     {:amqp, "~> 0.3.0"},
      {:poolboy, "~> 1.5"}
     ]
   end
