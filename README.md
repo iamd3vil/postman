@@ -4,7 +4,7 @@
 
 This is a service which sends Emails using multiple Email providers. This is supposed to be used as a standalone service which you can deploy independently and will take care of all the emails you have to send to your users. Postman has different ways of interaction.
 
-It exposes a simple API for all your emails, SMSs and push notifications. Just send a request through the HTTP API or through Rabbitmq, Postman takes care of sending them.
+It exposes a simple API for all your emails Just send a request through the HTTP API or through Rabbitmq, Postman takes care of sending them.
 
 Postman has a lot of configuration options you can use to configure it according to your needs. Please see the docs for everything you can do with Postman.
 
